@@ -1,0 +1,122 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.25.0'
+}
+
+group 'edu.uoc'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.9.2'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainModule = 'edu.uoc.uocanoid'
+    mainClass = 'edu.uoc.uocanoid.UOCanoid'
+}
+
+mainClassName = "$moduleName/edu.uoc.uocanoid.UOCanoid"
+
+javafx {
+    version = '21-ea+24'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javadoc{
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+    options.encoding = "UTF-8"
+    options.author = true
+    destinationDir = file("docs")
+}
+
+
+task testSanity(type: Test) {
+    group = "Verification"
+    useJUnitPlatform {
+        includeTags "sanity"
+    }
+}
+
+task testBasic(type: Test) {
+    group = "Verification"
+    useJUnitPlatform {
+        includeTags "basic"
+    }
+}
+
+task testSanityBasic(type: Test) {
+    group = "Verification"
+    useJUnitPlatform {
+        includeTags "sanity", "basic"
+    }
+}
+
+task testAdvanced(type: Test) {
+    group = "Verification"
+    useJUnitPlatform {
+        includeTags "advanced"
+    }
+}
+
+task testAll(type: Test) {
+    group = "Verification"
+    useJUnitPlatform {
+        includeTags "sanity", "basic", "advanced"
+    }
+}
+
+
+//Uncomment task "jar" if you want to create a fat jar (i.e. classes + dependencies).
+//If you generate a fat jar, then the user's computer must have JRE.
+/*jar {
+    manifest {
+        attributes (
+                'Main-Class' : 'edu.uoc.uocanoid.Main'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it) }
+    } {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}*/
+
+
+//If you want to create a Runtime image with jlink, then
+//you must comment the previous task "jar" and uncomment the
+//following tasks: "jlink" and "jlinkZip"
+/*jlink {
+   // imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'UOCanoid'
+    }
+}*/
+
+
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500" prefWidth="650" styleClass="bg" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uoc.uocanoid.view.GameOverViewController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="159.0" layoutY="54.0" prefHeight="118.0" prefWidth="357.0" styleClass="gameover-title" text="GAME OVER" />
+
+      <Label fx:id="level" alignment="CENTER" contentDisplay="CENTER" layoutX="226.0" layoutY="144.0" prefHeight="55.0" prefWidth="221.0" styleClass="gameover-level" text="Level 100" textAlignment="CENTER">
+      </Label>
+      <Label fx:id="score" alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="233.0" prefHeight="55.0" prefWidth="383.0" styleClass="gameover-score" text="30000000 points" textAlignment="CENTER" />
+      <Button layoutX="225.0" layoutY="415.0" onMouseClicked="#backMain" styleClass="btn" text="Back" textAlignment="CENTER" />
+   </children>
+</AnchorPane>

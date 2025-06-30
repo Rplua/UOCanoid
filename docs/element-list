@@ -1,0 +1,9 @@
+module:edu.uoc.uocanoid
+edu.uoc.uocanoid
+edu.uoc.uocanoid.controller
+edu.uoc.uocanoid.model
+edu.uoc.uocanoid.model.ball
+edu.uoc.uocanoid.model.bricks
+edu.uoc.uocanoid.model.levels
+edu.uoc.uocanoid.model.paddle
+edu.uoc.uocanoid.view

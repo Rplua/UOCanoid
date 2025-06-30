@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="500" prefWidth="650" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uoc.uocanoid.view.PlayViewController">
+   <children>
+      <Pane prefHeight="75.0" prefWidth="600.0" styleClass="game-bar">
+         <children>
+            <Label layoutX="20.0" layoutY="14.0" styleClass="game-bar-text" text="Points: " />
+            <Label fx:id="score" layoutX="134.0" layoutY="14.0" styleClass="game-bar-text" text="10000" textAlignment="RIGHT" />
+            <Label layoutX="350.0" layoutY="14.0" styleClass="game-bar-text" text="Lives:" />
+            <Label fx:id="lives" layoutX="450.0" layoutY="14.0" styleClass="game-bar-text" text="10" textAlignment="RIGHT" />
+            <Button layoutX="577.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#backMain" styleClass="btn-small" text="Back" />
+            <Label fx:id="alert" layoutX="175.0" layoutY="180.0" text="Label" visible="false" styleClass="game-alert"/>
+         </children></Pane>
+      <Pane fx:id="canvas" prefHeight="425.0" prefWidth="600.0">
+      </Pane>
+   </children>
+</VBox>
