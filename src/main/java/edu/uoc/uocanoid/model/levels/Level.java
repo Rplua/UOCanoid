@@ -152,7 +152,10 @@ public class Level {
      * @return {@code true} if this level is beaten, otherwise {@code false}.
      */
     public boolean isCompleted() {
-        //TODO
+        if(bricks.size() == 0){
+            return true;
+        }
+        return  false;
     }
 
     /**
@@ -161,7 +164,7 @@ public class Level {
      * @return Current value of the attribute {@code bricks}.
      */
     public List<Brick> getBricks() {
-        //TODO
+        return bricks;
     }
 
     /**
@@ -170,7 +173,7 @@ public class Level {
      * @return Current value of the attribute {@code ball}.
      */
     public Ball getBall() {
-        //TODO
+        return ball;
     }
 
     /**
@@ -179,6 +182,6 @@ public class Level {
      * @return Current value of the attribute {@code paddle}.
      */
     public Paddle getPaddle() {
-        //TODO
+        return paddle;
     }
 }
