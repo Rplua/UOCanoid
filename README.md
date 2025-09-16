@@ -1,3 +1,30 @@
+UOCanoid
+
+In this repository you’ll find everything needed to run and review the project:
+
+All source files and resources
+
+A complete commit history
+
+The PDF with the activity instructions
+
+A PNG with the UML diagram used as a guide
+
+A runnable JAR (UOCanoid.jar) so you can try the game right away
+
+Requirements
+
+Java 17 or higher must be installed on your system.
+
+How to play
+
+Run: double-click the JAR or execute from a terminal:
+
+java -jar UOCanoid.jar
 
 
-In this repository, you can find all the files needed to run the project, the commits I’ve been making, the PDF with the activity instructions, and the PNG file with the UML diagram I’ve been following to code this project.
+Controls: use A (left) and D (right) to move the paddle.
+
+Goal: break the bricks, avoid letting the ball fall.
+
+Enjoy and have fun! 🎮🟦🧱
