@@ -14,7 +14,7 @@ public enum XDirection {
         return orientation;
     }
 
-    public void setOrientation(int orientation) {
+    private void setOrientation(int orientation) {
         this.orientation = orientation;
     }
 

@@ -13,7 +13,7 @@ public enum YDirection {
         return orientation;
     }
 
-    public void setOrientation(int orientation) {
+    private void setOrientation(int orientation) {
         this.orientation = orientation;
     }
 
@@ -25,10 +25,10 @@ public enum YDirection {
     }
 
     public static YDirection getValueByOrientation(int orientation){
-        if (orientation == -1){
+        if (orientation == + 1){
             return  DOWN;
         }
-        if(orientation == + 1){
+        if(orientation == - 1){
             return UP;
         }
         return null;

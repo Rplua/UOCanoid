@@ -152,10 +152,15 @@ public class Level {
      * @return {@code true} if this level is beaten, otherwise {@code false}.
      */
     public boolean isCompleted() {
-        if(bricks.size() == 0){
+        if(bricks.isEmpty()){
             return true;
         }
-        return  false;
+        for(Brick brick : bricks){
+            if(!(brick instanceof BrickUnbreakable)){
+                return false;
+            }
+        }
+        return  true;
     }
 
     /**

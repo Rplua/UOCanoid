@@ -1,14 +1,14 @@
 package edu.uoc.uocanoid.model;
 
-public class Entity {
+public abstract class Entity {
     private int height;
     private int width;
     private int x;
     private int y;
 
-    public Entity(int height, int width, int x, int y) {
-        this.height = height;
-        this.width = width;
+    protected Entity(int x, int y, int width, int height) {
+        setWidth(width);
+        setHeight(height);
         this.x = x;
         this.y = y;
     }
@@ -18,7 +18,12 @@ public class Entity {
     }
 
     public void setHeight(int height) {
+        if (height < 1){
+            this.height = 1;
+            return;
+        }
         this.height = height;
+
     }
 
     public int getWidth() {
@@ -26,6 +31,10 @@ public class Entity {
     }
 
     public void setWidth(int width) {
+        if (width < 1){
+            this.width = 1;
+            return;
+        }
         this.width = width;
     }
 
@@ -43,5 +52,10 @@ public class Entity {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "position:" + "(" + getX() +"," + getY() + ")" + "size:" + getWidth()+"x"+ getHeight();
     }
 }

@@ -3,6 +3,7 @@ package edu.uoc.uocanoid.controller;
 import edu.uoc.uocanoid.model.XDirection;
 import edu.uoc.uocanoid.model.ball.Ball;
 import edu.uoc.uocanoid.model.bricks.Brick;
+import edu.uoc.uocanoid.model.bricks.BrickUnbreakable;
 import edu.uoc.uocanoid.model.levels.Level;
 import edu.uoc.uocanoid.model.levels.LevelException;
 import edu.uoc.uocanoid.model.paddle.Paddle;
@@ -154,7 +155,7 @@ public class GameController {
      * @return Value of the attribute {@code currentLevel} that indicates which level the player is playing.
      */
     public int getCurrentLevel() {
-        //TODO
+        return  currentLevel;
     }
 
     /**
@@ -164,8 +165,10 @@ public class GameController {
      * @param currentLevel New value for the attribute {@code currentLevel}.
      */
     private void setCurrentLevel(int currentLevel) {
-        if (currentLevel > 0)
+        if (currentLevel > 0){
             this.currentLevel = currentLevel;
+        }
+
     }
 
     /**
@@ -174,7 +177,7 @@ public class GameController {
      * @return Value of the attribute {@code score}.
      */
     public int getScore() {
-        //TODO
+        return  score;
     }
 
     /**
@@ -184,8 +187,9 @@ public class GameController {
      * @param score New value for the attribute {@code points}.
      */
     private void setScore(int score) {
-        if (score >= 0)
+        if (score >= 0){
             this.score = score;
+        }
     }
 
     /**
@@ -194,7 +198,7 @@ public class GameController {
      * @return Value of the attribute {@code numLives}.
      */
     public int getNumLives() {
-        //TODO
+        return numLives;
     }
 
     /**
@@ -204,7 +208,10 @@ public class GameController {
      * @param numLives New value for the attribute {@code numLives}.
      */
     public void setNumLives(int numLives) {
-        //TODO
+        if(numLives >=0){
+            this.numLives = numLives;
+        }
+
     }
 
     /**
@@ -213,7 +220,7 @@ public class GameController {
      * @return Value of the attribute {@code maxLevels}.
      */
     public int getMAX_LEVELS() {
-        //TODO
+        return MAX_LEVELS;
     }
 
     /**
@@ -225,6 +232,10 @@ public class GameController {
      */
     public boolean isGameFinished() {
         //TODO
+        if (currentLevel == MAX_LEVELS){
+            return  true;
+        }
+        return false;
     }
 
     /**
@@ -234,6 +245,7 @@ public class GameController {
      */
     public boolean isLevelCompleted() {
         //TODO
+        return level.isCompleted();
     }
 
 
@@ -244,6 +256,10 @@ public class GameController {
      */
     public boolean hasLost() {
         //TODO
+        if(numLives == 0){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -256,6 +272,18 @@ public class GameController {
      */
     public boolean nextLevel() throws LevelException {
         //TODO
+        if(isGameFinished()){
+            return false;
+        }
+        try {
+         currentLevel++;
+         loadLevel();
+         return true;
+        }catch (LevelException e){
+            System.out.println(LevelException.PARSING_LEVEL_FILE_ERROR);
+        }
+        return true;
+
     }
 
     /**
@@ -276,7 +304,7 @@ public class GameController {
      * @return {@link Brick} objects of the current level.
      */
     public List<Brick> getBricks() {
-        //TODO
+        return level.getBricks();
     }
 
     /**
@@ -296,6 +324,15 @@ public class GameController {
      */
     public Map<String, Integer> getBallData() {
         //TODO
+        Map<String,Integer> ballAttr = new HashMap<>();
+        ballAttr.put("x", level.getBall().getX());
+        ballAttr.put("y", level.getBall().getY());
+        ballAttr.put("radius", level.getBall().getWidth());
+        ballAttr.put("xDirection", level.getBall().getXDirection().getOrientation());
+        ballAttr.put("yDirection", level.getBall().getYDirection().getOrientation());
+        ballAttr.put("speed", level.getBall().getSpeed());
+
+        return ballAttr;
     }
 
     /**
@@ -313,14 +350,22 @@ public class GameController {
      * @return {@link Paddle}'s data of the current level in a {@link Map} format.
      */
     public Map<String, Integer> getPaddleData() {
-        //TODO
+        Map<String, Integer> paddleAttr = new HashMap<>();
+        paddleAttr.put("x", level.getPaddle().getX());
+        paddleAttr.put("y", level.getPaddle().getY());
+        paddleAttr.put("width", level.getPaddle().getWidth());
+        paddleAttr.put("height", level.getPaddle().getHeight());
+        paddleAttr.put("direction", level.getPaddle().getDirection().getOrientation());
+        paddleAttr.put("speed", level.getPaddle().getSpeed());
+
+        return paddleAttr;
     }
 
     /**
      * Change the direction of the ball in x-axis.
      */
     private void swapBallXDirection() {
-        //TODO
+        level.getBall().changeXDirection();
     }
 
     /**
@@ -328,6 +373,7 @@ public class GameController {
      */
     private void swapBallYDirection() {
         //TODO
+        level.getBall().changeYDirection();
     }
 
     /**
@@ -341,8 +387,60 @@ public class GameController {
      * On the right, the ball's x is equal to or greater than the brick's most-righted x minus the ball's width.
      */
     private void checkCollisionBricks() {
-        //TODO
+        Ball ball = level.getBall();
+
+        int bx = ball.getX();
+        int by = ball.getY();
+        int bw = ball.getWidth();
+        int bh = ball.getHeight();
+
+
+        Iterator<Brick> it = level.getBricks().iterator();
+
+        while (it.hasNext()) {
+            Brick brick = it.next();
+
+            if (brick.getCurrentHits() >= brick.getNumHitsToBreak()) {
+                continue;
+            }
+
+            int rx = brick.getX();
+            int ry = brick.getY();
+            int rw = brick.getWidth();
+            int rh = brick.getHeight();
+
+            boolean overlapX = (bx <= rx + rw) && (bx + bw >= rx);
+            boolean overlapY = (by <= ry + rh) && (by + bh >= ry);
+
+            if (!(overlapX && overlapY)) {
+                continue;
+            }
+
+            ball.changeYDirection();
+
+            boolean hitLeft  = (bx <= rx);
+            boolean hitRight = (bx >= rx + rw - bw);
+            if (hitLeft || hitRight) {
+                ball.changeXDirection();
+            }
+
+
+            if (!(brick instanceof BrickUnbreakable)) {
+                brick.incCurrentHits();
+            }
+
+
+            if (brick.getCurrentHits() >= brick.getNumHitsToBreak()) {
+
+                score = score + brick.getPoints();
+
+                it.remove();
+            }
+
+        }
     }
+
+
 
     /**
      * It checks if the ball exceeds the stage (right, left or top).
@@ -353,7 +451,23 @@ public class GameController {
      * Hint: you should notice that ball's (x,y) are the top-left corner of the ball.
      */
     private void checkCollisionScene() {
-        //TODO
+        Ball ball = level.getBall();
+
+        int bx = ball.getX();
+        int by = ball.getY();
+        int bw = ball.getWidth();
+
+        if (bx <= 0) {
+            swapBallXDirection();
+
+        } else if (bx + bw >= WIDTH) {
+            swapBallXDirection();
+        }
+
+        if (by <= 0) {
+            swapBallYDirection();
+        }
+
     }
 
     /**
@@ -365,7 +479,30 @@ public class GameController {
      * On the right, the ball's x is equal to or greater than the paddle's most-righted x minus the ball's width.
      */
     private void checkCollisionPaddle() {
-        //TODO
+        Ball ball = level.getBall();
+        Paddle paddle = level.getPaddle();
+
+        int ballX = ball.getX();
+        int ballY = ball.getY();
+        int paddleX = paddle.getX();
+        int paddleY = paddle.getY();
+
+        boolean inRangeX = ballX + ball.getWidth() >= paddleX &&
+                ballX <= paddleX + paddle.getWidth();
+
+
+        boolean inRangeY = ballY + ball.getHeight() >= paddleY &&
+                ballY <= paddleY + paddle.getHeight();
+
+        if (inRangeX && inRangeY) {
+
+            ball.changeYDirection();
+
+            if (ballX <= paddleX ||
+                    ballX >= paddleX + paddle.getWidth() - ball.getWidth()) {
+                ball.changeXDirection();
+            }
+        }
     }
 
     /**
@@ -374,8 +511,16 @@ public class GameController {
      *
      * @return {@code true} if the ball exceeds the paddle's y. Otherwise, it returns {@code false}.
      */
-    private boolean checkCollisionBottom() {
-        //TODO
+    private boolean checkCollisionBottom() throws LevelException {
+        int ball = level.getBall().getY();
+        int paddle = level.getPaddle().getY();
+        if(ball > paddle){
+            numLives--;
+            loadLevel();
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -389,8 +534,16 @@ public class GameController {
      * @param direction Direction in which the player wants the paddle to move.
      */
     public void movePaddle(XDirection direction) {
-        //TODO
+        Paddle paddle = level.getPaddle();
+
+        int futureX = paddle.getX() + direction.getOrientation() * paddle.getSpeed();
+
+        if (futureX >= 0 && futureX + paddle.getWidth() <= WIDTH) {
+            paddle.setDirection(direction);
+            paddle.move();
+        }
     }
+
 
     /**
      * It invokes the {@link Ball}'s {@code move} method.
@@ -407,14 +560,26 @@ public class GameController {
      *
      * @return The value returned by {@code checkCollisionBottom}.
      */
-    public boolean update() {
-        //TODO
+    public boolean update()   {
+        if(!isLevelCompleted()){
+            checkCollisionPaddle();
+            moveBall();
+            checkCollisionBricks();
+            checkCollisionScene();
+            try{
+                return  checkCollisionBottom();
+            } catch (LevelException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return false;
     }
 
     /**
      * It invokes the {@link Ball}'s {@code restore} method.
      */
     public void restore() {
-        //TODO
+        level.getBall().restore();
     }
 }

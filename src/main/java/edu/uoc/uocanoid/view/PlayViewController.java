@@ -173,9 +173,9 @@ public class PlayViewController {
                 hideAlert();
             } else if (alert.isVisible() && e.getCode() == KeyCode.R && died) {
                 hideAlert();
-            } else if (e.getCode() == KeyCode.A) {
+            } else if (e.getCode() == KeyCode.A ) {
                 movePaddle(XDirection.LEFT);
-            } else if (e.getCode() == KeyCode.S) {
+            } else if (e.getCode() == KeyCode.D ) {
                 movePaddle(XDirection.RIGHT);
             }
         });

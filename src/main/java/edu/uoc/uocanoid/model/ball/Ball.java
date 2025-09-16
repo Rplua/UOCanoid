@@ -1,4 +1,4 @@
-package edu.uoc.uocanoid.ball;
+package edu.uoc.uocanoid.model.ball;
 
 import edu.uoc.uocanoid.model.Entity;
 import edu.uoc.uocanoid.model.Movable;
@@ -14,46 +14,58 @@ public class Ball extends Entity implements Movable {
     private XDirection xDirection;
     private  YDirection yDirection;
 
-    public Ball(int x, int y, int radius, XDirection xDirection, YDirection yDirection, int speed){
-        super();
-        this.xDirection = xDirection;
-        this.yDirection = yDirection;
-        this.speed = speed;
+    public Ball(int x, int y, int radius, XDirection XDirection, YDirection YDirection, int speed){
+        super(x, y, radius, radius );
+        this.INIT_X = x;
+        this.INIT_Y = y;
+        this.INIT_X_DIRECTION = XDirection;
+        this.INIT_Y_DIRECTION = YDirection;
+        this.xDirection = XDirection;
+        this.yDirection = YDirection;
+        setSpeed(speed);
     }
 
-    public int getINIT_X() {
-        return INIT_X;
-    }
 
-    public XDirection getINIT_X_DIRECTION() {
-        return INIT_X_DIRECTION;
-    }
-
-    public int getINIT_Y() {
-        return INIT_Y;
-    }
-
-    public YDirection getINIT_Y_DIRECTION() {
-        return INIT_Y_DIRECTION;
-    }
-
-    public XDirection getxDirection() {
+    public XDirection getXDirection() {
         return xDirection;
     }
 
-    public void setxDirection(XDirection xDirection) {
+    private void setXDirection(XDirection xDirection) {
         this.xDirection = xDirection;
     }
 
-    public YDirection getyDirection() {
+    public void changeXDirection(){
+        if(xDirection.equals(XDirection.LEFT) ){
+            xDirection = XDirection.RIGHT;
+        }else{
+            xDirection = XDirection.LEFT;
+        }
+    }
+
+    public YDirection getYDirection() {
         return yDirection;
     }
 
-    public void setyDirection(YDirection yDirection) {
+    private void setYDirection(YDirection yDirection) {
         this.yDirection = yDirection;
     }
 
-    public void setSpeed()
+
+
+    public void changeYDirection(){
+        if (yDirection.equals(YDirection.UP)) {
+            yDirection = YDirection.DOWN;
+        } else {
+            yDirection = YDirection.UP;
+        }
+    }
+
+    public void restore(){
+        setX(INIT_X);
+        setY(INIT_Y);
+        setXDirection(INIT_X_DIRECTION);
+        setYDirection(INIT_Y_DIRECTION);
+    }
 
     @Override
     public int getSpeed() {
@@ -73,12 +85,11 @@ public class Ball extends Entity implements Movable {
         }
 
     }
-
     @Override
     public String toString() {
         return "position: (" + getX() + "," + getY() + ")" +
                 ", size: " + getWidth() + "x" + getHeight() +
-                ", direction: (" +getxDirection() +"," + getyDirection() + ")" +
+                ", direction: (" +getXDirection() +"," + getYDirection() + ")" +
                 ", speed: " + speed;
     }
 }
