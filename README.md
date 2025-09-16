@@ -10,7 +10,7 @@ The PDF with the activity instructions
 
 A PNG with the UML diagram used as a guide
 
-A runnable JAR (UOCanoid.jar) so you can try the game right away
+A runnable JAR (UOCanoid-1.0-SNAPSHOT.jar) so you can try the game right away
 
 Requirements
 
